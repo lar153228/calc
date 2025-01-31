@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор Apple Style с площадью треугольника</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffffff;
+            margin: 0;
+        }
+        .calculator {
+            background-color: #000;
+            padding: 20px;
+            border-radius: 40px;
+            width: 300px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        .display {
+            width: 100%;
+            height: 80px;
+            text-align: right;
+            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 48px;
+            color: #fff;
+            background-color: transparent;
+            border: none;
+            outline: none;
+        }
+        .buttons {
+    display: grid;
+    grid-template-areas: 
+    "ac plus-minus percent division"
+    "seven eigth nine multi"
+    "four five six minus"
+    "one two three plus"
+    "zero zero dot equal";
+    grid-gap: 7px;
+    justify-items: center;
+}
+        .button {
+            width: 60px;
+            height: 60px;
+            font-size: 28px;
+            border: none;
+            border-radius: 50%;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        .button:hover {
+            background-color: #555;
+        }
+        .button.operator {
+            background-color: #ff9500;
+            color: #fff;
+        }
+        .button.operator:hover {
+            background-color: #ffab4a;
+        }
+        .button.equal {
+            background-color: #ff9500;
+            color: #fff;
+            grid-column: span 1;
+            width: 100%;
+            border-radius: 30px;
+        }
+        .button.equal:hover {
+            background-color: #ffab4a;
+        }
+        .button.function {
+            background-color: #a5a5a5;
+            color: #000;
+        }
+        .button.function:hover {
+            background-color: #d9d9d9;
+        }
+        .button.zero {
+    grid-column: span 2;
+    width: 100%;
+    border-radius: 30px;
+    justify-content: auto;
+    padding-left: 3px;
+}
+            .button.triangle {
+    background-color: #ff9500;
+    color: #fff;
+    grid-column: span 4;
+    width: 100%;
+    border-radius: 30px;
+    justify-content: auto;
+    padding-left: 3px;
+}
+
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" class="display" id="display" disabled>
+    <div class="buttons">
+        <button class="button function" onclick="clearDisplay()">C</button>
+        <button class="button function" onclick="toggleSign()">±</button>
+        <button class="button function" onclick="appendOperator('%')">%</button>
+        <button class="button operator" onclick="appendOperator('/')">÷</button>
+        <button class="button" onclick="appendNumber('7')">7</button>
+        <button class="button" onclick="appendNumber('8')">8</button>
+        <button class="button" onclick="appendNumber('9')">9</button>
+        <button class="button operator" onclick="appendOperator('*')">×</button>
+        <button class="button" onclick="appendNumber('4')">4</button>
+        <button class="button" onclick="appendNumber('5')">5</button>
+        <button class="button" onclick="appendNumber('6')">6</button>
+        <button class="button operator" onclick="appendOperator('-')">−</button>
+        <button class="button" onclick="appendNumber('1')">1</button>
+        <button class="button" onclick="appendNumber('2')">2</button>
+        <button class="button" onclick="appendNumber('3')">3</button>
+        <button class="button operator" onclick="appendOperator('+')">+</button>
+        <button class="button zero" onclick="appendNumber('0')">0</button><button class="button" onclick="appendNumber('.')">.</button>
+        <button class="button equal" onclick="calculate()">=</button>
+        <button class="button triangle" onclick="calculateTriangleArea()">S△</button>
+    </div>
+</div>
+
+<script>
+    let display = document.getElementById('display');
+
+    function appendNumber(number) {
+        if (display.value === '0' && number !== '.') {
+            display.value = '';
+        }
+        display.value += number;
+    }
+
+    function appendOperator(operator) {
+        display.value += operator;
+    }
+
+    function clearDisplay() {
+        display.value = '0';
+    }
+
+    function toggleSign() {
+    if (display.value !== '0') {
+        display.value = display.value.startsWith('-') ? display.value.slice(1) : -$display.value};
+    }
+
+
+
+
+function calculate() {
+    try {
+        // Заменяем символы на стандартные математические операторы
+        const expression = display.value
+            .replace(/×/g, '*')
+            .replace(/÷/g, '/')
+            .replace(/−/g, '-');
+
+        // Проверяем, что выражение содержит только допустимые символы
+        if (!/^[\d+\-*/.()%\s]+$/.test(expression)) {
+            throw new Error('Некорректное выражение');
+        }
+
+        // Используем Function для безопасного вычисления
+        const result = new Function(`return ${expression}`)();
+        display.value = result;
+    } catch (e) {
+        display.value = 'Ошибка';
+    }
+}
+
+    function calculateTriangleArea() {
+        // Запрашиваем у пользователя основание и высоту
+        let base = parseFloat(prompt("Введите основание треугольника (a):"));
+        let height = parseFloat(prompt("Введите высоту треугольника (h):"));
+
+        // Проверяем, что введены корректные числа
+        if (isNaN(base) || isNaN(height)) {
+            alert("Пожалуйста, введите корректные числа!");
+            return;
+        }
+
+        // Вычисляем площадь треугольника
+        let area = 0.5 * base * height;
+
+        // Выводим результат на экран
+        display.value = area;
+    }
+</script>
+
+</body>
+</html>   
