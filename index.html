@@ -34,16 +34,16 @@
             outline: none;
         }
         .buttons {
-    display: grid;
-    grid-template-areas: 
-    "ac plus-minus percent division"
-    "seven eigth nine multi"
-    "four five six minus"
-    "one two three plus"
-    "zero zero dot equal";
-    grid-gap: 7px;
-    justify-items: center;
-}
+            display: grid;
+            grid-template-areas: 
+                "ac plus-minus percent division"
+                "seven eight nine multi"
+                "four five six minus"
+                "one two three plus"
+                "zero zero dot equal";
+            grid-gap: 7px;
+            justify-items: center;
+        }
         .button {
             width: 60px;
             height: 60px;
@@ -86,22 +86,32 @@
             background-color: #d9d9d9;
         }
         .button.zero {
-    grid-column: span 2;
-    width: 100%;
-    border-radius: 30px;
-    justify-content: auto;
-    padding-left: 3px;
-}
-            .button.triangle {
-    background-color: #ff9500;
-    color: #fff;
-    grid-column: span 4;
-    width: 100%;
-    border-radius: 30px;
-    justify-content: auto;
-    padding-left: 3px;
-}
-
+            grid-column: span 2;
+            width: 100%;
+            border-radius: 30px;
+            justify-content: flex-start;
+            padding-left: 25px;
+        }
+        .button.triangle {
+            background-color: #ff9500;
+            color: #fff;
+            grid-column: span 4;
+            width: 100%;
+            border-radius: 30px;
+            justify-content: center;
+        }
+        .button.navigate {
+            background-color: #ff9500;
+            color: #fff;
+            grid-column: span 4;
+            width: 100%;
+            border-radius: 30px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .button.navigate:hover {
+            background-color: #ff9500;
+        }
     </style>
 </head>
 <body>
@@ -125,9 +135,11 @@
         <button class="button" onclick="appendNumber('2')">2</button>
         <button class="button" onclick="appendNumber('3')">3</button>
         <button class="button operator" onclick="appendOperator('+')">+</button>
-        <button class="button zero" onclick="appendNumber('0')">0</button><button class="button" onclick="appendNumber('.')">.</button>
+        <button class="button zero" onclick="appendNumber('0')">0</button>
+        <button class="button" onclick="appendNumber('.')">.</button>
         <button class="button equal" onclick="calculate()">=</button>
         <button class="button triangle" onclick="calculateTriangleArea()">S△</button>
+        <button class="button navigate" onclick="navigateToPage()">больше формул</button>
     </div>
 </div>
 
@@ -150,52 +162,48 @@
     }
 
     function toggleSign() {
-    if (display.value !== '0') {
-        display.value = display.value.startsWith('-') ? display.value.slice(1) : -$display.value};
-    }
-
-
-
-
-function calculate() {
-    try {
-        // Заменяем символы на стандартные математические операторы
-        const expression = display.value
-            .replace(/×/g, '*')
-            .replace(/÷/g, '/')
-            .replace(/−/g, '-');
-
-        // Проверяем, что выражение содержит только допустимые символы
-        if (!/^[\d+\-*/.()%\s]+$/.test(expression)) {
-            throw new Error('Некорректное выражение');
+        if (display.value !== '0') {
+            display.value = display.value.startsWith('-') ? display.value.slice(1) : `-${display.value}`;
         }
-
-        // Используем Function для безопасного вычисления
-        const result = new Function(`return ${expression}`)();
-        display.value = result;
-    } catch (e) {
-        display.value = 'Ошибка';
     }
-}
 
+    function calculate() {
+        try {
+            const expression = display.value
+                .replace(/×/g, '*')
+                .replace(/÷/g, '/')
+                .replace(/−/g, '-');
+
+            if (!/^[\d+\-*/.()%\s]+$/.test(expression)) {
+                throw new Error('Некорректное выражение');
+            }
+
+            const result = new Function(`return ${expression}`)();
+            display.value = result;
+        } catch (e) {
+            display.value = 'Ошибка';
+        }
+    }
+
+    // Функция для вычисления площади треугольника через prompt
     function calculateTriangleArea() {
-        // Запрашиваем у пользователя основание и высоту
         let base = parseFloat(prompt("Введите основание треугольника (a):"));
         let height = parseFloat(prompt("Введите высоту треугольника (h):"));
 
-        // Проверяем, что введены корректные числа
         if (isNaN(base) || isNaN(height)) {
             alert("Пожалуйста, введите корректные числа!");
             return;
         }
 
-        // Вычисляем площадь треугольника
         let area = 0.5 * base * height;
-
-        // Выводим результат на экран
         display.value = area;
+    }
+
+    // Функция для перехода на другую страницу
+    function navigateToPage() {
+        window.location.href = "формулы.html"; // Укажите путь к вашей странице
     }
 </script>
 
 </body>
-</html>   
+</html> 
