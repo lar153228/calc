@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор фигур</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .calculator {
+            background-color: #000;
+            border-radius: 20px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+        }
+        .display {
+            background-color: #333;
+            color: #fff;
+            font-size: 2em;
+            text-align: right;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .buttons {
+            display: grid;
+            grid-template-areas: 
+                "← ▲ ■";;
+            grid-gap: 7px;
+            justify-items: center;
+        }
+        .button {
+            width: 60px;
+            height: 60px;
+            font-size: 28px;
+            border: none;
+            border-radius: 50%;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        .button:hover {
+            background-color: #ff9500;
+            color: #fff;
+            grid-column: span 4;
+            width: 100%;
+            border-radius: 30px;
+            justify-content: center;
+        }
+        .button.orange {
+            background-color: #ff9500;
+            color: #fff;
+            grid-column: span 4;
+            width: 100%;
+            border-radius: 30px;
+            justify-content: center;
+        }
+        .button.orange:hover {
+            background-color: #ffad33;
+        }
+        .button.gray {
+            background-color: #ff9500;
+            color: #fff;
+            grid-column: span 4;
+            width: 100%;
+            border-radius: 30px;
+            justify-content: center;
+        }
+        .button.gray:hover {
+            background-color: #ffad33;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button class="button gray" onclick="navigateToPage1()">←назад</button>
+            <button class="button orange" onclick="navigateToPage2()">▲треугольники</button>
+            <button class="button orange" onclick="navigateToPage3()">■четырехугольники</button>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let currentInput = '';
+
+        function clearDisplay() {
+            currentInput = '';
+            display.innerText = '0';
+        }
+
+        function calculateTriangle() {
+            let base = parseFloat(prompt('Введите основание треугольника:'));
+            let height = parseFloat(prompt('Введите высоту треугольника:'));
+            if (!isNaN(base) && !isNaN(height)) {
+                let area = 0.5 * base * height;
+                display.innerText = area.toFixed(2);
+            } else {
+                alert('Пожалуйста, введите корректные числа.');
+            }
+        }
+
+        function calculateQuadrilateral() {
+            let length = parseFloat(prompt('Введите длину четырехугольника:'));
+            let width = parseFloat(prompt('Введите ширину четырехугольника:'));
+            if (!isNaN(length) && !isNaN(width)) {
+                let area = length * width;
+                display.innerText = area.toFixed(2);
+            } else {
+                alert('Пожалуйста, введите корректные числа.');
+            }
+        }
+        function navigateToPage1() {
+        window.location.href = "index.html"; // Укажите путь к вашей странице
+    }
+    function navigateToPage2() {
+        window.location.href = "треугольники.html"; // Укажите путь к вашей странице
+    }
+    function navigateToPage3() {
+        window.location.href = "четырехугольники.html"; // Укажите путь к вашей странице
+    }
+    </script>
+</body>
+</html>
